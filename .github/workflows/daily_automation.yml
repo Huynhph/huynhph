@@ -1,0 +1,43 @@
+name: Daily Marketing Automation
+
+on:
+  schedule:
+    # Chạy vào 01:00 UTC hàng ngày (tức 08:00 sáng giờ Việt Nam)
+    - cron: '0 1 * * *'
+  workflow_dispatch: # Cho phép bạn bấm nút chạy thủ công khi cần
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        playwright install chromium
+
+    - name: Run Automation
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: |
+        python3 brand_analyzer.py
+        python3 optimizer.py
+        python3 gen_video.py
+
+    - name: Upload Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: marketing-outputs
+        path: |
+          action_plan.md
+          video_ads_output.mp4
+          brand_guidelines.txt

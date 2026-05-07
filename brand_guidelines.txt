@@ -1,0 +1,23 @@
+Chào bạn, với tư cách là chuyên gia về Brand Identity, tôi xin đưa ra bản phân tích nhanh về nhận diện thương hiệu của website "Hoa Mai Design Award 2026" như sau:
+
+### 1. Bảng màu chủ đạo (Color Palette)
+Thiết kế sử dụng dải màu gradient tập trung vào sắc độ của công nghệ và sự sang trọng:
+*   **Deep Navy (Xanh navy đậm):** `#0a1733` - Làm nền chủ đạo, tạo chiều sâu và độ tin cậy.
+*   **Electric Blue (Xanh điện quang):** `#1a50a6` đến `#00d4ff` (dải gradient) - Thể hiện tính hiện đại, kết nối và năng lượng.
+*   **Soft Peach/Gold (Cam đào nhạt):** `#f9c89e` - Dùng cho các điểm nhấn quan trọng (shape thông tin), tạo sự tương phản ấm áp với nền xanh lạnh.
+*   **White (Trắng):** `#ffffff` - Dùng cho nội dung văn bản, đảm bảo tính dễ đọc cao nhất trên nền tối.
+
+### 2. Phong cách thiết kế (Design Style)
+*   **Futuristic & Professional:** Phong cách thiết kế "High-tech", sử dụng hiệu ứng ánh sáng tỏa (radial light burst) tạo cảm giác hướng tâm, năng động và đổi mới.
+*   **Corporate Branding:** Bố cục phản ánh sự uy tín của một giải thưởng tầm cỡ quốc gia/quốc tế, sạch sẽ, hiện đại và hướng tới tương lai.
+
+### 3. Typography (Font chữ)
+*   **Đặc điểm:** Sử dụng nhóm **Sans-serif** (không chân), kiểu dáng hình học (geometric) hiện đại, nét đậm dày (bold weight) ở phần tiêu đề để tạo sự khẳng định và uy quyền.
+*   **Đánh giá:** Font chữ tối giản giúp người xem tập trung ngay lập tức vào thông điệp chính và các cột mốc thời gian, phù hợp với trải nghiệm người dùng trên thiết bị số.
+
+### 4. Bố cục (Layout)
+*   **Hierarchy (Phân cấp thông tin):** Rõ ràng. Điểm nhìn bắt đầu từ Logo bên trái, dẫn dắt sang tên giải thưởng (Hero title), sau đó hướng mắt sang phải tới thông tin giải thưởng (điểm nhấn shape màu cam).
+*   **Grid System:** Sử dụng hệ thống lưới ngang truyền thống kết hợp với thanh thông báo (ticker) chạy chữ ở phía dưới tạo cảm giác chuyên nghiệp, giống như các kênh tin tức hoặc sàn giao dịch, giúp gia tăng sự chú ý vào thông điệp lặp lại.
+*   **Tính cân bằng:** Việc sử dụng các hình khối đối lập (hình tròn/hình đa giác mềm mại của thông tin giải thưởng trên nền không gian kỹ thuật số góc cạnh) giúp tạo ra sự cân bằng về thị giác.
+
+**Tóm tắt chung:** Đây là một thiết kế **"Tech-Forward"**. Việc sử dụng màu xanh navy đậm kết hợp với gradient ánh sáng không chỉ làm nổi bật chủ đề "Kỷ nguyên AI" mà còn khẳng định vị thế của một cuộc thi thiết kế mang tầm vóc chuyên nghiệp, hiện đại và đột phá.
