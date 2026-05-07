@@ -2,9 +2,9 @@ name: Daily Marketing Automation
 
 on:
   schedule:
-    # Chạy vào 01:00 UTC thứ 2 và thứ 5 (tức 08:00 sáng giờ Việt Nam)
+    # Runs at 01:00 UTC Monday & Thursday (08:00 AM Ho Chi Minh City time)
     - cron: '0 1 * * 1,4'
-  workflow_dispatch: # Cho phép bạn bấm nút chạy thủ công khi cần
+  workflow_dispatch: # Manual trigger
 
 jobs:
   build-and-run:
@@ -25,19 +25,19 @@ jobs:
         pip install -r requirements.txt
         playwright install chromium
 
-    - name: Run Automation
+    - name: Run Automation Pipeline
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+        META_AD_ACCOUNT_ID: ${{ secrets.META_AD_ACCOUNT_ID }}
       run: |
+        python3 meta_bridge.py
         python3 brand_analyzer.py
         python3 optimizer.py
-        python3 gen_video.py
 
-    - name: Upload Results
+    - name: Archive Optimization Reports and Prompts
       uses: actions/upload-artifact@v4
       with:
-        name: marketing-outputs
-        path: |
-          action_plan.md
-          video_ads_output.mp4
-          brand_guidelines.txt
+        name: HoaMai_Action_Plans
+        path: action_plans/
+        retention-days: 7
