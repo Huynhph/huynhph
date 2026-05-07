@@ -32,10 +32,18 @@ def analyze_brand_from_url(url):
 
     # --- Phân tích Vision với cơ chế tự động tìm Model ---
     img = Image.open(screenshot_path)
-    available_models = [m.name.replace('models/', '') for m in client.models.list()]
     
-    priority_list = ['gemini-flash-lite-latest', 'gemini-2.5-flash-image', 'gemini-2.0-flash-lite']
+    available_models = []
+    try:
+        available_models = [m.name.replace('models/', '') for m in client.models.list()]
+    except Exception as e:
+        print(f">>> Cảnh báo: Không thể lấy danh sách model ({e})")
+    
+    priority_list = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-1.5-flash']
     target_models = [m for m in priority_list if m in available_models] + available_models
+    
+    if not target_models:
+        target_models = priority_list
 
     for model_name in target_models:
         try:
