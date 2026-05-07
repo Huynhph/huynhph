@@ -77,4 +77,24 @@ def run_optimization():
     print(">>> Lỗi: Không có model nào phản hồi.")
 
 if __name__ == "__main__":
-    run_optimization()
+    target_url = "https://www.hoamaidesignaward.com/"
+    
+    # KIỂM TRA MÔI TRƯỜNG: Nếu chạy trên GitHub Actions, bỏ qua input()
+    if os.getenv('GITHUB_ACTIONS') == 'true':
+        print(f">>> Chạy tự động trên GitHub: Sử dụng URL mặc định {target_url}")
+    else:
+        # Nếu chạy trên máy Mac của Huynh, vẫn cho phép nhập URL mới
+        try:
+            user_input = input(f"Dùng URL {target_url} (Enter) hoặc nhập URL mới: ").strip()
+            if user_input: 
+                target_url = user_input
+        except EOFError:
+            print(f">>> Cảnh báo: Không nhận được input, dùng mặc định: {target_url}")
+
+    # Tiếp tục quá trình phân tích
+    guidelines = analyze_brand_from_url(target_url)
+    
+    if guidelines:
+        with open("brand_guidelines.txt", "w", encoding="utf-8") as f:
+            f.write(guidelines)
+        print(f"\n>>> Đã tạo file Guidelines tại: {os.path.abspath('brand_guidelines.txt')}")
