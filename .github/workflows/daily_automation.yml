@@ -2,8 +2,8 @@ name: Daily Marketing Automation
 
 on:
   schedule:
-    # Chạy vào 01:00 UTC hàng ngày (tức 08:00 sáng giờ Việt Nam)
-    - cron: '0 1 * * *'
+    # Chạy vào 01:00 UTC thứ 2 và thứ 5 (tức 08:00 sáng giờ Việt Nam)
+    - cron: '0 1 * * 1,4'
   workflow_dispatch: # Cho phép bạn bấm nút chạy thủ công khi cần
 
 jobs:
