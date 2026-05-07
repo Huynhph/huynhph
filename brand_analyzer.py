@@ -4,10 +4,12 @@ from google import genai
 from dotenv import load_dotenv
 from PIL import Image
 
+# 1. Khởi tạo môi trường
 load_dotenv()
 client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 
 def analyze_brand_from_url(url):
+    """Truy cập website, chụp ảnh và phân tích DNA thương hiệu."""
     if not url.startswith('http'):
         print(">>> Lỗi: URL không hợp lệ.")
         return None
@@ -28,15 +30,12 @@ def analyze_brand_from_url(url):
         print(f">>> Lỗi khi truy cập website: {e}")
         return None
 
-    # --- PHẦN FIX LỖI: Tự động tìm model hỗ trợ Vision ---
+    # --- Phân tích Vision với cơ chế tự động tìm Model ---
     img = Image.open(screenshot_path)
     available_models = [m.name.replace('models/', '') for m in client.models.list()]
     
-    # Thứ tự ưu tiên: Bản Lite mới nhất (đã chạy thành công trước đó) -> Bản Image -> Các bản Flash khác
     priority_list = ['gemini-flash-lite-latest', 'gemini-2.5-flash-image', 'gemini-2.0-flash-lite']
     target_models = [m for m in priority_list if m in available_models] + available_models
-
-    print(f">>> Đang thử nghiệm Vision với danh sách: {target_models[:3]}...")
 
     for model_name in target_models:
         try:
@@ -56,14 +55,29 @@ def analyze_brand_from_url(url):
     print(">>> Rất tiếc, không tìm thấy model nào hỗ trợ phân tích hình ảnh.")
     return None
 
+# --- KHỐI ĐIỀU KHIỂN CHÍNH (ĐÃ FIX LỖI) ---
 if __name__ == "__main__":
     target_url = "https://www.hoamaidesignaward.com/"
-    user_input = input(f"Dùng URL {target_url} (Enter) hoặc nhập URL mới: ").strip()
-    if user_input: target_url = user_input
+    
+    # Bước 1: Kiểm tra môi trường để tránh lỗi EOFError
+    if os.getenv('GITHUB_ACTIONS') == 'true':
+        print(f">>> [Automation Mode] Sử dụng URL mặc định: {target_url}")
+    else:
+        # Nếu chạy trên máy Mac của Huynh, cho phép tùy chỉnh URL
+        try:
+            print(f"URL hiện tại: {target_url}")
+            user_input = input("Nhấn Enter để dùng URL trên hoặc dán URL mới: ").strip()
+            if user_input: 
+                target_url = user_input
+        except (EOFError, KeyboardInterrupt):
+            print(f"\n>>> Đang dùng URL mặc định.")
 
+    # Bước 2: Thực thi phân tích
     guidelines = analyze_brand_from_url(target_url)
     
+    # Bước 3: Lưu kết quả
     if guidelines:
-        with open("brand_guidelines.txt", "w", encoding="utf-8") as f:
+        output_file = "brand_guidelines.txt"
+        with open(output_file, "w", encoding="utf-8") as f:
             f.write(guidelines)
-        print(f"\n>>> Đã tạo file Guidelines tại: {os.path.abspath('brand_guidelines.txt')}")
+        print(f">>> THÀNH CÔNG: Đã tạo file {output_file}")
