@@ -29,9 +29,16 @@ def run_optimization():
     video_skills = VideoAdsKnowledge.get_knowledge_prompt()
 
     # 3. Tìm model khả dụng
-    available_models = [m.name for m in client.models.list()]
-    target_models = [name for name in available_models if 'flash' in name.lower()]
+    target_models = []
+    try:
+        available_models = [m.name for m in client.models.list()]
+        target_models = [name for name in available_models if 'flash' in name.lower()]
+    except Exception as e:
+        print(f"Warning: Không thể lấy danh sách model ({e})")
+        
     # Thêm model fallback
+    if not target_models:
+        target_models.append('models/gemini-2.5-flash')
     target_models.append('models/gemini-2.5-flash-lite') 
 
     print(f">>> Đang sử dụng dữ liệu từ: ads_performance.csv và brand_guidelines.txt")
@@ -77,24 +84,10 @@ def run_optimization():
     print(">>> Lỗi: Không có model nào phản hồi.")
 
 if __name__ == "__main__":
-    target_url = "https://www.hoamaidesignaward.com/"
-    
-    # KIỂM TRA MÔI TRƯỜNG: Nếu chạy trên GitHub Actions, bỏ qua input()
-    if os.getenv('GITHUB_ACTIONS') == 'true':
-        print(f">>> Chạy tự động trên GitHub: Sử dụng URL mặc định {target_url}")
+    # Không gọi analyze_brand_from_url() ở đây vì script trước đã làm rồi.
+    # Chỉ cần kiểm tra file đã tồn tại chưa và chạy tối ưu.
+    if os.path.exists('brand_guidelines.txt'):
+        print(">>> Đã tìm thấy Brand Guidelines. Bắt đầu tối ưu hóa...")
+        run_optimization()
     else:
-        # Nếu chạy trên máy Mac của Huynh, vẫn cho phép nhập URL mới
-        try:
-            user_input = input(f"Dùng URL {target_url} (Enter) hoặc nhập URL mới: ").strip()
-            if user_input: 
-                target_url = user_input
-        except EOFError:
-            print(f">>> Cảnh báo: Không nhận được input, dùng mặc định: {target_url}")
-
-    # Tiếp tục quá trình phân tích
-    guidelines = analyze_brand_from_url(target_url)
-    
-    if guidelines:
-        with open("brand_guidelines.txt", "w", encoding="utf-8") as f:
-            f.write(guidelines)
-        print(f"\n>>> Đã tạo file Guidelines tại: {os.path.abspath('brand_guidelines.txt')}")
+        print(">>> Lỗi: Không tìm thấy brand_guidelines.txt. Chạy brand_analyzer.py trước.")
